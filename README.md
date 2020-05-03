@@ -9,14 +9,14 @@ This tool is free to use and modify. If you get some use out of it, or if you ha
 
 1. Clone the repo
 
-`
+```
 git clone git@github.com:onlymattjohnson/jobhunter.git
-`
+```
 
 2. Initialize pipenv
 
-`
+```
 cd jobhunter
 pipenv --python 3.8
 pipenv install
-`
+```
