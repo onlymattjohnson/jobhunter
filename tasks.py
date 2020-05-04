@@ -32,7 +32,6 @@ def get_greenhouse_jobs(site_name):
           'job_title': job_title,
           'job_url': job_link,
           'job_location': job_location, 
-          'job_link': job_link,
           'department_1': department_name,
           'department_2': ''
         }
@@ -57,7 +56,6 @@ def get_greenhouse_jobs(site_name):
             'job_title': job_title,
             'job_url': job_link,
             'job_location': job_location, 
-            'job_link': job_link,
             'department_1': department_name,
             'department_2': sub_department_name
           }
@@ -66,6 +64,6 @@ def get_greenhouse_jobs(site_name):
   return json.dumps(results)
 
 if __name__ == '__main__':
-  site = 'twilio'
+  site = 'gitlab'
   f = get_greenhouse_jobs(site)
   print(f)
