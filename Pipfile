@@ -9,6 +9,9 @@ verify_ssl = true
 beautifulsoup4 = "*"
 requests = "*"
 html5lib = "*"
+xml = "*"
+python-lxml = "*"
+lxml = "*"
 
 [requires]
 python_version = "3.8"

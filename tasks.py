@@ -63,7 +63,39 @@ def get_greenhouse_jobs(site_name):
 
   return json.dumps(results)
 
+def get_zapier_jobs():
+  """
+  Returns zapier jobs
+  """
+
+  results = []
+
+  url = 'https://zapier.com/jobs/feeds/latest/'
+  r = requests.get(url)
+
+  soup = BeautifulSoup(r.content, 'xml')
+
+  jobs = soup.findAll('item')
+
+  for job in jobs:
+    job_id = job.find('guid').text
+    job_title = job.find('title').text
+    job_url = job.find('link').text
+
+    job_dict = {
+      'id': job_id,
+      'job_title': job_title,
+      'job_url': job_url,
+      'job_location': 'Remote',
+      'department_1': '',
+      'department_2': ''
+    }
+    results.append(job_dict)
+
+  return json.dumps(results)
+
+  
 if __name__ == '__main__':
-  site = 'gitlab'
-  f = get_greenhouse_jobs(site)
+  f = get_zapier_jobs()
   print(f)
+  
