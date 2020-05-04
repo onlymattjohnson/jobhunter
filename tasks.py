@@ -23,13 +23,15 @@ def get_greenhouse_jobs(site_name):
       job_link = job.find('a')['href']
       job_link = f'{base_url}{job_link}'
 
+      job_location = job.find('span', {'class': 'location'}).text
+
       job_id = job_link.rsplit('/', 1)[-1]
       
       job_dict = {
           'id': job_id,
           'job_title': job_title,
           'job_url': job_link,
-          'job_location': '', 
+          'job_location': job_location, 
           'job_link': job_link,
           'department_1': department_name,
           'department_2': ''
@@ -46,13 +48,15 @@ def get_greenhouse_jobs(site_name):
         job_link = job.find('a')['href']
         job_link = f'{base_url}{job_link}'
 
+        job_location = job.find('span', {'class': 'location'}).text
+
         job_id = job_link.rsplit('/', 1)[-1]
 
         job_dict = {
             'id': job_id,
             'job_title': job_title,
             'job_url': job_link,
-            'job_location': '', 
+            'job_location': job_location, 
             'job_link': job_link,
             'department_1': department_name,
             'department_2': sub_department_name
