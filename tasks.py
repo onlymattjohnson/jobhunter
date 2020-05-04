@@ -1,4 +1,4 @@
-import json, requests
+import json, requests, yaml
 from bs4 import BeautifulSoup
 
 def get_greenhouse_jobs(site_name):
@@ -96,6 +96,15 @@ def get_zapier_jobs():
 
   
 if __name__ == '__main__':
-  f = get_zapier_jobs()
-  print(f)
+  with open('employers.yaml', 'r') as stream:
+    try:
+      employers = yaml.safe_load(stream)
+    except yaml.YAMLError as exc:
+      print(exc)
   
+  for posting_type in employers:
+    if posting_type == 'greenhouse':
+      for employer in employers[posting_type]:
+        j = get_greenhouse_jobs(employer)
+        with open(f'{employer}.json', 'w') as file:
+          file.write(j)
