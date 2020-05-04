@@ -1,4 +1,4 @@
-import json, requests, yaml
+import json, requests, sys, yaml
 from bs4 import BeautifulSoup
 
 def get_greenhouse_jobs(site_name):
@@ -96,15 +96,32 @@ def get_zapier_jobs():
 
   
 if __name__ == '__main__':
+  current_module = sys.modules[__name__]
   with open('employers.yaml', 'r') as stream:
     try:
-      employers = yaml.safe_load(stream)
+      y = yaml.safe_load(stream)
     except yaml.YAMLError as exc:
       print(exc)
-  
-  for posting_type in employers:
-    if posting_type == 'greenhouse':
-      for employer in employers[posting_type]:
-        j = get_greenhouse_jobs(employer)
+
+  for task_run in y:
+    category_name = task_run['category']
+    print(f'Loading jobs for {category_name}...')
+    func = task_run['function']
+    func = getattr(current_module, func)
+    
+    # If this is a category that has employers
+    # run through them here
+    if 'employers' in task_run:
+      for employer in task_run['employers']:
+        print(f'\tFinding jobs at {employer}...')
+        jobs = func(employer)
         with open(f'{employer}.json', 'w') as file:
-          file.write(j)
+          file.write(jobs)
+    else: 
+    # This is a section with no employers
+    # so just pull it in as a one-off function
+      jobs = func()
+      with open(f'{category_name}.json', 'w') as file:
+        file.write(jobs)
+
+  
