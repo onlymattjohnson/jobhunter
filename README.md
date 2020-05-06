@@ -1,4 +1,14 @@
 # jobhunter
+
+```
+       _       __    __                __           
+      (_)___  / /_  / /_  __  ______  / /____  _____
+     / / __ \/ __ \/ __ \/ / / / __ \/ __/ _ \/ ___/
+    / / /_/ / /_/ / / / / /_/ / / / / /_/  __/ /    
+ __/ /\____/_.___/_/ /_/\__,_/_/ /_/\__/\___/_/     
+/___/                                               
+```
+
 ![A dog found a job](img/dog_found_job.png)
 
 *jobhunter* is a tool to find jobs that I am specifically looking for.
