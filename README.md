@@ -45,32 +45,27 @@ psql
 CREATE DATABASE jobhunter;
 ```
 
-3. Connect to the database 
+3. Create a username and password for the database 
 
-```bash
-\c jobhunter
+```
+createuser --interactive --pwprompt
 ```
 
-4. Run the SQL to create the base table [jobhunter_schema.sql](jobhunter_schema.sql)
+and follow the instructions on screen.
 
-```sql
-CREATE TABLE jobs (
-   id UUID PRIMARY KEY,
-   employer VARCHAR(500),
-   job_id VARCHAR(100),
-   job_title VARCHAR(500),
-   job_url VARCHAR(500),
-   job_location VARCHAR(500),
-   department1 VARCHAR(500),
-   department2 VARCHAR(500),
-   first_seen DATE DEFAULT CURRENT_DATE,
-   last_seen DATE DEFAULT CURRENT_DATE,
-   post_status VARCHAR(1)
-);
-```
-
-5. Exit from the database
+4. Add the new user to the jobhunter database:
 
 ```bash
+psql
+
+GRANT ALL ON DATABASE jobhunter TO {db_user};
+
 \q
+```
+
+5. Add the username and password to a .env file:
+
+```
+JOBHUNTER_DB_USER=database_user_name
+JOBHUNTER_DB_PASS=database_password
 ```
