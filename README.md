@@ -69,3 +69,19 @@ GRANT ALL ON DATABASE jobhunter TO {db_user};
 JOBHUNTER_DB_USER=database_user_name
 JOBHUNTER_DB_PASS=database_password
 ```
+
+6. Exit and reload your environment
+
+```bash
+exit
+pipenv shell
+```
+
+7. Open the python shell and create the database tables 
+
+```python
+python
+
+from models import create_tables
+create_tables()
+```
