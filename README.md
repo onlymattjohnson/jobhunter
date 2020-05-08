@@ -28,3 +28,49 @@ cd jobhunter
 pipenv --python 3.8
 pipenv install
 ```
+
+## Database Setup
+
+This application uses postgresql by default. To set up the database:
+
+1. Open Postgres Command Line
+
+```bash
+psql
+```
+
+2. Create the database
+
+```sql
+CREATE DATABASE jobhunter;
+```
+
+3. Connect to the database 
+
+```bash
+\c jobhunter
+```
+
+4. Run the SQL to create the base table [jobhunter_schema.sql](jobhunter_schema.sql)
+
+```sql
+CREATE TABLE jobs (
+   id UUID PRIMARY KEY,
+   employer VARCHAR(500),
+   job_id VARCHAR(100),
+   job_title VARCHAR(500),
+   job_url VARCHAR(500),
+   job_location VARCHAR(500),
+   department1 VARCHAR(500),
+   department2 VARCHAR(500),
+   first_seen DATE DEFAULT CURRENT_DATE,
+   last_seen DATE DEFAULT CURRENT_DATE,
+   post_status VARCHAR(1)
+);
+```
+
+5. Exit from the database
+
+```bash
+\q
+```
