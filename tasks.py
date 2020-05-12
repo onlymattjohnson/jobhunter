@@ -95,6 +95,16 @@ def get_zapier_jobs():
 
   return json.dumps(results)
 
+def check_if_exists(employer_name, job):
+  """
+  Checks for an object existing
+  """
+  result = True
+  exists = Job.query.filter_by(job_id = job['id'], employer_name = employer_name).first()
+  if not exists:
+    result = False
+  return result
+
 def load_job_to_database(employer_name, job):
   j = Job(
         employer_name = employer_name,
@@ -105,7 +115,10 @@ def load_job_to_database(employer_name, job):
         department1 = job['department1'],
         department2 = job['department2']
       )
-  db.session.add(j)
+  if check_if_exists(employer, job):
+    pass
+  else:
+    db.session.add(j)
   db.session.commit()
 
 if __name__ == '__main__':
