@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Jobhunter</title>
+  </head>
+  <body>
+    <ul>
+      {% for job in jobs %}
+      <li><a href = "{{ job.job_url }}">{{ job.job_title }}</a>
+      {% endfor %}
+    </ul>
+  </body>
+</html>

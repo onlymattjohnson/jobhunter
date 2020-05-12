@@ -1,6 +1,6 @@
 import os
 from datetime import datetime
-from flask import Flask
+from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 
 db_user = os.environ.get('JOBHUNTER_DB_USER', None)
@@ -20,9 +20,9 @@ class Job(db.Model):
   job_location = db.Column(db.String)
   department1 = db.Column(db.String)
   department2 = db.Column(db.String)
-  created_on = db.Column(db.Date, server_default = db.func.now())
-  updated_on = db.Column(db.Date, server_default = db.func.now())
-  status = db.String(1)
+  created_on = db.Column(db.DateTime, server_default = db.func.now())
+  updated_on = db.Column(db.DateTime, server_default = db.func.now())
+  job_status = db.Column(db.String(1))
 
   def __init__( self, 
                employer_name = None, 
@@ -32,7 +32,7 @@ class Job(db.Model):
                job_location = None,
                department1 = None,
                department2 = None,
-               status = 'A'
+               job_status = 'A'
               ):
     self.employer_name = employer_name
     self.job_id = job_id
@@ -41,14 +41,15 @@ class Job(db.Model):
     self.job_location = job_location
     self.department1 = department1
     self.department2 = department2
-    self.status = status
+    self.job_status = job_status
 
   def __repr__(self):
     return f'<Job Posting {self.employer_name} ({self.job_id}) : {self.job_title}'
 
 @app.route('/')
 def index():
-  return '<h1>Hello world</h1>'
+  active_jobs = Job.query.filter_by(job_status = 'A').order_by(Job.created_on.desc()).all()
+  return render_template('recent_jobs.html', jobs = active_jobs)
 
 if __name__ == '__main__':
   app.run()
