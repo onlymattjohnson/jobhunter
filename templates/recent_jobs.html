@@ -1,14 +1,32 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Jobhunter</title>
-  </head>
-  <body>
-    <ul>
+{% extends 'base.html' %}
+
+{% block title %}
+New Jobs
+{% endblock %}
+
+{% block content %}
+  <h2>Newest Jobs</h2>
+  <p>
+    These are the latest jobs that have been loaded
+  </p>
+  <table class = "table">
+    <thead>
+      <tr>
+        <th>Employer</th>
+        <th>Department</th>
+        <th>Job Title</th>
+        <th>Date Posted</th>
+      </tr>
+    </thead>
+    <tbody>
       {% for job in jobs %}
-      <li><a href = "{{ job.job_url }}">{{ job.job_title }}</a>
+      <tr>
+        <td>{{ job.employer_name }}</td>
+        <td>{{ job.department1 }} {{ job.department2 }}</td>
+        <td>{{ job.job_title }}</td>
+        <td>{{ job.created_on }}</td>
+      </tr>
       {% endfor %}
-    </ul>
-  </body>
-</html>
+    </tbody>
+  </table>
+{% endblock %}
