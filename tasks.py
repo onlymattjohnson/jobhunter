@@ -1,5 +1,6 @@
 import json, requests, sys, yaml
 from bs4 import BeautifulSoup
+from app import db, Job
 
 def get_greenhouse_jobs(site_name):
   """
@@ -32,8 +33,8 @@ def get_greenhouse_jobs(site_name):
           'job_title': job_title,
           'job_url': job_link,
           'job_location': job_location, 
-          'department_1': department_name,
-          'department_2': ''
+          'department1': department_name,
+          'department2': ''
         }
       results.append(job_dict)
 
@@ -56,8 +57,8 @@ def get_greenhouse_jobs(site_name):
             'job_title': job_title,
             'job_url': job_link,
             'job_location': job_location, 
-            'department_1': department_name,
-            'department_2': sub_department_name
+            'department1': department_name,
+            'department2': sub_department_name
           }
         results.append(job_dict)
 
@@ -87,13 +88,25 @@ def get_zapier_jobs():
       'job_title': job_title,
       'job_url': job_url,
       'job_location': 'Remote',
-      'department_1': '',
-      'department_2': ''
+      'department1': '',
+      'department2': ''
     }
     results.append(job_dict)
 
   return json.dumps(results)
 
+def load_job_to_database(employer_name, job):
+  j = Job(
+        employer_name = employer_name,
+        job_id = job['id'],
+        job_title = job['job_title'],
+        job_url = job['job_url'],
+        job_location = job['job_location'],
+        department1 = job['department1'],
+        department2 = job['department2']
+      )
+  db.session.add(j)
+  db.session.commit()
 
 if __name__ == '__main__':
   current_module = sys.modules[__name__]
@@ -115,6 +128,9 @@ if __name__ == '__main__':
       for employer in task_run['employers']:
         print(f'\tFinding jobs at {employer}...')
         jobs = func(employer)
+        for job in json.loads(jobs):
+          load_job_to_database(employer, job)
+
         with open(f'{employer}.json', 'w') as file:
           file.write(jobs)
     else: 

@@ -3,9 +3,9 @@
   function: get_greenhouse_jobs
   employers:
     - wikimedia
-    - gitlab
-    - twilio  
--
-  category: zapier
-  function: get_zapier_jobs
+  #  - gitlab
+  #  - twilio  
+#-
+#  category: zapier
+#  function: get_zapier_jobs
   
