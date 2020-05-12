@@ -94,7 +94,7 @@ def get_zapier_jobs():
 
   return json.dumps(results)
 
-  
+
 if __name__ == '__main__':
   current_module = sys.modules[__name__]
   with open('employers.yaml', 'r') as stream:

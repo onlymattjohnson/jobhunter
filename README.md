@@ -82,6 +82,6 @@ pipenv shell
 ```python
 python
 
-from models import create_tables
-create_tables()
+from app import db 
+db.create_all()
 ```
