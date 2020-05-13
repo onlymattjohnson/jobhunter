@@ -85,3 +85,21 @@ python
 from app import db 
 db.create_all()
 ```
+
+## Refresh jobs
+
+1. Run the tasks app to load new jobs
+
+```bash
+pipenv run python tasks.py
+```
+
+## Launch Development Web Page
+
+1. Launch the webserver
+
+```bash
+pipenv run python app.py
+```
+
+2. View site at `http://127.0.0.1:5000/` in a browser.
