@@ -23,7 +23,10 @@ New Jobs
       <tr>
         <td>{{ job.employer_name }}</td>
         <td>{{ job.department1 }} {{ job.department2 }}</td>
-        <td><a href="{{ job.job_url }}">{{ job.job_title }}</a></td>
+        <td>
+          <a href="{{ job.job_url }}">{{ job.job_title }}</a><br>
+          <small class="text-muted">{{ job.job_location }}</small>
+        </td>
         <td>{{ job.created_on }}</td>
       </tr>
       {% endfor %}
