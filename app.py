@@ -3,6 +3,9 @@ from datetime import datetime
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 
+from dotenv import load_dotenv
+load_dotenv()
+
 db_user = os.environ.get('JOBHUNTER_DB_USER', None)
 db_pass = os.environ.get('JOBHUNTER_DB_PASS', None)
 
