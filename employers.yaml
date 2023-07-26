@@ -4,7 +4,6 @@
   employers:
     - wikimedia
     - gitlab
-    - twilio  
 -
   category: zapier
   function: get_zapier_jobs

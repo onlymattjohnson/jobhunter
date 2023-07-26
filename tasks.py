@@ -1,4 +1,4 @@
-import json, requests, sys, yaml
+import json, re, requests, sys, yaml
 from bs4 import BeautifulSoup
 from app import db, Job
 
@@ -64,6 +64,44 @@ def get_greenhouse_jobs(site_name):
 
   return json.dumps(results)
 
+def get_techjobsfor_good():
+  """
+  Returns tech jobs for good jobs
+  """
+  print('Finding jobs at Tech Jobs for Good')
+
+  url = 'https://techjobsforgood.com/jobs/'
+  r = requests.get(url)
+  soup = BeautifulSoup(r.content, 'xml')
+
+  jobs = soup.find_all("a", {"class": "content"})
+
+  for job in jobs:
+      job_url = job['href']
+      
+      job_id_search = re.search('\/jobs\/(\d+)\/', job_url)
+      if job_id_search:
+          job_id = job_id_search.group(1)
+      else:
+          job_id = None
+      
+      job_title = job.find_all('div')[0].text.strip()
+      job_url = url + job_id
+      job_employer = job.find_all('span', {"class": "company_name"})[0].text.strip()
+      job_location = job.find_all('span', {"class": "location"})[0].text.strip()
+      
+      job_dict = {
+        'id': job_id,
+        'job_title': job_title,
+        'job_url': job_url,
+        'job_location': job_location,
+        'department1': '',
+        'department2': '',
+      }
+      load_job_to_database(job_employer, job_dict)
+
+  return None
+
 def get_zapier_jobs():
   """
   Returns zapier jobs
@@ -115,9 +153,10 @@ def load_job_to_database(employer_name, job):
         department1 = job['department1'],
         department2 = job['department2']
       )
-  if check_if_exists(employer, job):
+  if check_if_exists(employer_name, job):
     pass
   else:
+    print(f'Loading {job["job_title"]} at {employer_name}')
     db.session.add(j)
   db.session.commit()
 
@@ -152,5 +191,8 @@ if __name__ == '__main__':
       jobs = func()
       with open(f'{category_name}.json', 'w') as file:
         file.write(jobs)
+  
+  # Extra jobs
+  get_techjobsfor_good()
 
   

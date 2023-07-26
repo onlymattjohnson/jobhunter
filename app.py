@@ -14,6 +14,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql+psycopg2://{db_user}:{db_pa
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
+app.app_context().push()
+
 class Job(db.Model):
   id = db.Column(db.Integer, primary_key = True)
   employer_name = db.Column(db.String)
