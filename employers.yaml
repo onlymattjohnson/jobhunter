@@ -4,6 +4,7 @@
   employers:
     - wikimedia
     - gitlab
+    - propublica
 -
   category: zapier
   function: get_zapier_jobs

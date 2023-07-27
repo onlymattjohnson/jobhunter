@@ -2,14 +2,17 @@ import json, re, requests, sys, yaml
 from bs4 import BeautifulSoup
 from app import db, Job
 
-def get_greenhouse_jobs(site_name):
+def get_greenhouse_jobs(site_name, embed = False):
   """
   Returns jobs from Greenhouse
   """
   results = []
 
   base_url = 'https://boards.greenhouse.io'
-  url = f'{base_url}/{site_name}/'
+  if embed:
+    url = f'{base_url}/{site_name}/embed/job_board?for={site_name}'
+  else:
+    url = f'{base_url}/{site_name}/'
   r = requests.get(url)
 
   soup = BeautifulSoup(r.content, 'html5lib')
@@ -22,7 +25,8 @@ def get_greenhouse_jobs(site_name):
       job_title = job.find('a').text
 
       job_link = job.find('a')['href']
-      job_link = f'{base_url}{job_link}'
+      if not embed:
+        job_link = f'{base_url}{job_link}'
 
       job_location = job.find('span', {'class': 'location'}).text
 
